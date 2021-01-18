@@ -1,7 +1,6 @@
 package com.example.samplemovieapp
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import com.example.samplemovieapp.Constants.NOW_PLAYING
 import com.example.samplemovieapp.Constants.POPULAER_MOVIES
 import com.example.samplemovieapp.Constants.TOP_RATED
@@ -22,17 +21,14 @@ class MainRepository @Inject constructor(
 //    suspend fun getNowPlaying() =apiHelper.getNowPlaying()
 //    suspend fun getTopRated() =apiHelper.getTopRated()
 
-    suspend fun getUpcommingMovies(): LiveData<List<Popular.Result>> {
+    suspend fun getUpcommingMovies(): Resource<Popular> {
        var  response=  apiHelper.getUpcomming()
         response.body()?.results?.let {
             it.forEach { insertOrUpdate(it, UPCOMMING_MOVIES) }
+            return Resource.success(response.body())
         }
-//        popularDao.fetchByCategory("%${UPCOMMING_MOVIES}%")?.let {
-//            if (it.isNullOrEmpty())
-//                return Resource.error("No data", null)
-//            return Resource.success(Popular(1,it,10,50))
-//        }
-        return popularDao.fetchByCategory("%${UPCOMMING_MOVIES}")
+
+        return Resource.error("No data", null)
     }
     suspend fun getPouplarMovies(): Resource<Popular> {
         var  response=  apiHelper.getPopularMovies()

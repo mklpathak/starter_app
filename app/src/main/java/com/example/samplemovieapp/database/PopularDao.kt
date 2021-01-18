@@ -1,6 +1,5 @@
 package com.example.samplemovieapp.database
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.samplemovieapp.models.Popular
 
@@ -29,7 +28,7 @@ interface PopularDao {
     suspend fun insert(user: Popular.Result)
 
     @Query("SELECT * FROM popular WHERE categories LIKE :search")
-    fun fetchByCategory(search: String?): LiveData<List<Popular.Result>>
+    suspend fun fetchByCategory(search: String?): List<Popular.Result>
 
 
 
