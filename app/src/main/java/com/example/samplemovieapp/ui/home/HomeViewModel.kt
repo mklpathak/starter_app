@@ -26,6 +26,10 @@ class HomeViewModel @ViewModelInject constructor(
     val res : LiveData<Resource<List<BaseModel>>>
         get() = _res
 
+
+    val cacheSupport : LiveData<List<Popular.Result>>
+        get() = mainRepository.getCacheSupport()
+
     init {
         getEmployees()
     }
@@ -34,6 +38,9 @@ class HomeViewModel @ViewModelInject constructor(
         supervisorScope {
 
             try {
+
+
+
                 var popularMoviesDeffered =   async { mainRepository.getPouplarMovies() }
                 var upcommingMoviesDeffered = async { mainRepository.getUpcommingMovies() }
                 var nowPlayingDeffered =  async { mainRepository.getNowPlaying() }

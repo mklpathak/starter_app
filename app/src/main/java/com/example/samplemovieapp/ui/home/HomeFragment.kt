@@ -36,6 +36,17 @@ class HomeFragment : Fragment(), LifecycleOwner {
         var binding = FragmentHomeBinding.inflate(LayoutInflater.from(context))
         binding.movies.setLayoutManager(GridLayoutManager(context, 3))
 
+        homeViewModel.cacheSupport.observe(viewLifecycleOwner, Observer {
+            binding.movies.withModels {
+                it.forEach{
+                    popularMovie {
+                        id(it.id)
+                        movie(it)
+                    }
+                }
+            }
+        })
+
 
 
 

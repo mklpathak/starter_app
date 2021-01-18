@@ -21,11 +21,12 @@ class MainRepository @Inject constructor(
 //    suspend fun getNowPlaying() =apiHelper.getNowPlaying()
 //    suspend fun getTopRated() =apiHelper.getTopRated()
 
+    fun getCacheSupport() = popularDao.getAll()
+
     suspend fun getUpcommingMovies(): Resource<Popular> {
        var  response=  apiHelper.getUpcomming()
         response.body()?.results?.let {
             it.forEach { insertOrUpdate(it, UPCOMMING_MOVIES) }
-            return Resource.success(response.body())
         }
 
         return Resource.error("No data", null)
@@ -38,7 +39,6 @@ class MainRepository @Inject constructor(
         }
         return Resource.error("No data", null)
     }
-
     suspend fun getNowPlaying(): Resource<Popular> {
         var  response=  apiHelper.getNowPlaying()
         response.body()?.results?.let {
@@ -55,8 +55,6 @@ class MainRepository @Inject constructor(
         }
         return Resource.error("No data", null)
     }
-
-
 
     suspend fun insertOrUpdate(it: Popular.Result,tag: Int) {
         try{
@@ -80,6 +78,4 @@ class MainRepository @Inject constructor(
     }
 
 }
-
- //   suspend fun saveMoviesInDb(movies:List<Popular.Result>) = popularDao.insertAll(movies)
 
