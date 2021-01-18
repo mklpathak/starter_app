@@ -9,6 +9,9 @@ import com.example.samplemovieapp.database.PopularDao
 import com.example.samplemovieapp.models.Popular
 import com.example.samplemovieapp.network.ApiHelper
 import com.example.samplemovieapp.utils.Resource
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.delayFlow
+import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
 

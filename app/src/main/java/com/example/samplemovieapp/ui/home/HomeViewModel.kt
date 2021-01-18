@@ -1,17 +1,22 @@
 package com.example.samplemovieapp.ui.home
 
+import android.content.SharedPreferences
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.samplemovieapp.Constants
 import com.example.samplemovieapp.MainRepository
 import com.example.samplemovieapp.models.BaseModel
 import com.example.samplemovieapp.models.Header
 import com.example.samplemovieapp.models.Popular
-import com.example.samplemovieapp.utils.Resource
-import com.example.samplemovieapp.utils.Status
+import com.example.samplemovieapp.utils.*
 import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
 
@@ -26,90 +31,59 @@ class HomeViewModel @ViewModelInject constructor(
     val res : LiveData<Resource<List<BaseModel>>>
         get() = _res
 
+    var dataLoaded = false
 
-    val cacheSupport : LiveData<List<Popular.Result>>
-        get() = mainRepository.getCacheSupport()
+
+//    val cacheSupport : LiveData<List<Popular.Result>>
+//        get() = mainRepository.getCacheSupport()
 
     init {
-        getEmployees()
+        setObserver()
+        refreshData()
     }
-    private fun getEmployees()  = viewModelScope.launch {
+
+    private fun setObserver()= viewModelScope.launch {
         _res.postValue(Resource.loading(null))
+        mainRepository.getCacheSupport().sample(1000).collect {
+            data.clear()
+            data.apply {
+                add(Header("Popular Movies"))
+                add(Popular(1, it.filter {
+                    it.categories.contains(Constants.POPULAER_MOVIES.toString())
+                }, 0, 0))
+                add(Header("Upcomming Movies"))
+                add(Popular(1, it.filter {
+                    it.categories.contains(Constants.UPCOMMING_MOVIES.toString())
+                }, 0, 0))
+                add(Header("Now Playing"))
+                add(Popular(1, it.filter {
+                    it.categories.contains(Constants.NOW_PLAYING.toString())
+                }, 0, 0))
+                add(Header("Top rated Movies"))
+                add(Popular(1, it.filter {
+                    it.categories.contains(Constants.TOP_RATED.toString())
+                }, 0, 0))
+            }
+
+            _res.postValue(Resource.success(data))
+
+        }
+    }
+    private fun refreshData()  = viewModelScope.launch {
         supervisorScope {
-
             try {
-
-
-
                 var popularMoviesDeffered =   async { mainRepository.getPouplarMovies() }
                 var upcommingMoviesDeffered = async { mainRepository.getUpcommingMovies() }
                 var nowPlayingDeffered =  async { mainRepository.getNowPlaying() }
                 var topRatedDeffered = async { mainRepository.getTopRated() }
+                popularMoviesDeffered.await()
+                upcommingMoviesDeffered.await()
+                nowPlayingDeffered.await()
+                topRatedDeffered.await()
 
-                //   mainRepository.saveMoviesInDb(it.results)
-                popularMoviesDeffered.await()?.let {
-                    when(it.status){
-                        Status.SUCCESS ->{
-                            data.add(Header("Popular Movies"))
-                            it.data?.let { it1 -> data.add(it1) }
-                        }
-                        else -> {
-
-                        }
-                    }
-                }
-
-                upcommingMoviesDeffered.await()?.let {
-                    when(it.status){
-                        Status.SUCCESS ->{
-                            data.add(Header("Upcomming Movies"))
-                            it.data?.let { it1 -> data.add(it1) }
-                        }
-                        else -> {
-
-                        }
-                    }
-                }
-
-                nowPlayingDeffered.await()?.let {
-                    when(it.status){
-                        Status.SUCCESS ->{
-                            data.add(Header("Now Playing Movies"))
-                            it.data?.let { it1 -> data.add(it1) }
-                        }
-                        else -> {
-
-                        }
-                    }
-                }
-
-                topRatedDeffered.await()?.let {
-                    when(it.status){
-                        Status.SUCCESS ->{
-                            data.add(Header("Top rated Movies"))
-                            it.data?.let { it1 -> data.add(it1) }
-                        }
-                        else -> {
-
-                        }
-                    }
-                }
-//                upcommingMoviesDeffered.await().body()?.let {
-//                    data.add(Header("Upcomming Movies"))
-//                    data.add(it)
-//                }
-//                nowPlayingDeffered.await().body()?.let {
-//                    data.add(Header("Now Playing"))
-//                    data.add(it)
-//                }
-//                topRatedDeffered.await().body()?.let {
-//                    data.add(Header("Top rated"))
-//                    data.add(it)
-//                }
-                _res.postValue(Resource.success(data))
 
             }catch (e:Exception){
-                _res.postValue(Resource.error("failed",data))
+              //  _res.postValue(Resource.error("failed",data))
             }
         }
 

@@ -3,13 +3,14 @@ package com.example.samplemovieapp.database
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.samplemovieapp.models.Popular
+import kotlinx.coroutines.flow.Flow
 
 
 @Dao
 interface PopularDao {
 
     @Query("SELECT * FROM popular")
-    fun getAll(): LiveData<List<Popular.Result>>
+    fun getAll(): Flow<List<Popular.Result>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAll(users: List<Popular.Result>)
