@@ -1,17 +1,14 @@
 package com.example.samplemovieapp
 
 import android.util.Log
-import com.example.samplemovieapp.Constants.NOW_PLAYING
-import com.example.samplemovieapp.Constants.POPULAER_MOVIES
-import com.example.samplemovieapp.Constants.TOP_RATED
-import com.example.samplemovieapp.Constants.UPCOMMING_MOVIES
-import com.example.samplemovieapp.database.PopularDao
-import com.example.samplemovieapp.models.Popular
-import com.example.samplemovieapp.network.ApiHelper
-import com.example.samplemovieapp.utils.Resource
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.delayFlow
-import kotlinx.coroutines.flow.onStart
+import com.example.core.Constants.NOW_PLAYING
+import com.example.core.Constants.POPULAER_MOVIES
+import com.example.core.Constants.TOP_RATED
+import com.example.core.Constants.UPCOMMING_MOVIES
+import com.example.core.database.PopularDao
+import com.example.core.models.Popular
+import com.example.core.network.ApiHelper
+import com.example.core.utils.Resource
 import javax.inject.Inject
 
 

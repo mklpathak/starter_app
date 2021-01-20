@@ -1,6 +1,8 @@
 package com.example.samplemovieapp.ui.home
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,22 +12,28 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.airbnb.epoxy.carousel
-import com.example.samplemovieapp.Constants
-import com.example.samplemovieapp.PopularMovieBindingModel_
 import com.example.samplemovieapp.databinding.FragmentHomeBinding
+import com.example.core.models.Header
+import com.example.core.models.Popular
+import com.example.core.utils.Status
+import com.example.core.utils.withModelsFrom
+import com.example.samplemovieapp.BuildConfig
+import com.example.samplemovieapp.PopularMovieBindingModel_
+import com.example.samplemovieapp.dagger.inject
 import com.example.samplemovieapp.header
-import com.example.samplemovieapp.models.Header
-import com.example.samplemovieapp.models.Popular
 import com.example.samplemovieapp.popularMovie
-import com.example.samplemovieapp.utils.Status
-import com.example.samplemovieapp.utils.withModelsFrom
-import dagger.hilt.android.AndroidEntryPoint
+import com.google.android.play.core.splitinstall.SplitInstallManager
+import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
+import com.google.android.play.core.splitinstall.SplitInstallRequest
+import javax.inject.Inject
 
 
-@AndroidEntryPoint
 class HomeFragment : Fragment(), LifecycleOwner {
 
-    val homeViewModel: HomeViewModel by viewModels()
+    private var splitInstallManager: SplitInstallManager? = null
+
+    @Inject
+    lateinit var homeViewModel: HomeViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,21 +41,14 @@ class HomeFragment : Fragment(), LifecycleOwner {
         savedInstanceState: Bundle?
     ): View? {
 
+
+        inject(this)
         var binding = FragmentHomeBinding.inflate(LayoutInflater.from(context))
         binding.movies.setLayoutManager(GridLayoutManager(context, 3))
 
-//        homeViewModel.cacheSupport.observe(viewLifecycleOwner, Observer {
-//            binding.movies.withModels {
-//                it.forEach{
-//                    popularMovie {
-//                        id(it.id)
-//                        movie(it)
-//                    }
-//                }
-//            }
-//        })
+        installRegistrationModule()
 
-
+        
 
 
         homeViewModel.res.observe(viewLifecycleOwner, Observer {
@@ -65,7 +66,21 @@ class HomeFragment : Fragment(), LifecycleOwner {
                                     is Popular ->carousel {
                                         id("carousel")
                                         withModelsFrom(it.results) { movie ->
-                                            PopularMovieBindingModel_().id(movie.id).movie(movie)
+                                            PopularMovieBindingModel_().id(movie.id).movie(movie).onBind { model, view, position ->
+
+                                                view.dataBinding.root.setOnClickListener {
+                                                    splitInstallManager?.let {
+                                                        if (it.installedModules.contains("movie_detail")) {
+                                                            val i = Intent()
+                                                            i.setClassName(BuildConfig.APPLICATION_ID, "com.example.movie_detail.PostDetailActivity")
+                                                            startActivity(i)
+                                                        } else {
+                                                            Log.e(tag, "Registration feature is not installed")
+                                                        }
+                                                    }
+
+                                                }
+                                            }
                                         }
                                         spanSizeOverride { _, _, _ -> 3 }
                                     }
@@ -88,6 +103,19 @@ class HomeFragment : Fragment(), LifecycleOwner {
         })
 
         return binding.root
+    }
+
+
+    private fun installRegistrationModule() {
+        splitInstallManager = SplitInstallManagerFactory.create(context)
+        val request = SplitInstallRequest.newBuilder()
+            .addModule("movie_detail")
+            .build()
+
+        splitInstallManager?.startInstall(request)?.addOnSuccessListener {
+                Log.d("Mukulpathak", it.toString())}
+            ?.addOnFailureListener {
+                Log.e("MukulPathak", it.toString())}
     }
 
 }

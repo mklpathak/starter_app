@@ -2,16 +2,14 @@ package com.example.samplemovieapp
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.example.samplemovieapp.database.PopularDao
-import com.example.samplemovieapp.models.BaseModel
-import com.example.samplemovieapp.network.ApiHelper
+import com.example.core.database.PopularDao
+import com.example.core.models.BaseModel
+import com.example.core.network.ApiHelper
 import com.example.samplemovieapp.ui.home.HomeViewModel
-import com.example.samplemovieapp.utils.Resource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.After
 import org.junit.Test
 
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.rules.TestRule

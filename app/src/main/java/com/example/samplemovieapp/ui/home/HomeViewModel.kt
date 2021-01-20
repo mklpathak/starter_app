@@ -1,26 +1,22 @@
 package com.example.samplemovieapp.ui.home
 
-import android.content.SharedPreferences
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.samplemovieapp.Constants
+import com.example.core.Constants
 import com.example.samplemovieapp.MainRepository
-import com.example.samplemovieapp.models.BaseModel
-import com.example.samplemovieapp.models.Header
-import com.example.samplemovieapp.models.Popular
-import com.example.samplemovieapp.utils.*
+import com.example.core.models.BaseModel
+import com.example.core.models.Header
+import com.example.core.models.Popular
+import com.example.core.utils.*
 import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
 
-class HomeViewModel @ViewModelInject constructor(
+class HomeViewModel  constructor(
     private val mainRepository: MainRepository
 ):ViewModel(){
 
