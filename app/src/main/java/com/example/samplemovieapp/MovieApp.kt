@@ -6,7 +6,6 @@ import android.content.Context
 import androidx.fragment.app.Fragment
 import com.example.core.dagger.CoreComponent
 import com.example.core.dagger.DaggerCoreComponent
-import com.example.samplemovieapp.dagger.DaggerHomeComponent
 import com.google.android.play.core.splitcompat.SplitCompat
 
 class MovieApp : Application() {

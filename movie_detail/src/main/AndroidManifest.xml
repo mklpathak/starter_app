@@ -15,6 +15,16 @@
 
     <application>
         <activity
+            android:name=".deeplink.MovieDetailDeeplink"
+            android:theme="@android:style/Theme.NoDisplay">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="detail" android:host="example.com" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".PostDetailActivity"
             android:label="@string/title_activity_post_detail"
             android:theme="@style/Theme.SampleMovieApp.NoActionBar"></activity>

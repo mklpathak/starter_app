@@ -1,5 +1,7 @@
 package com.example.movie_detail
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -36,7 +38,11 @@ class PostDetailFragment : Fragment() , LifecycleOwner {
         postDetailViewModel.refreshData(483)
 
         view.findViewById<Button>(R.id.button_first).setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+            val intent =
+                Intent(Intent.ACTION_VIEW)
+            intent.setData(Uri.parse("app://example.com/deepLink/654"))
+            startActivity(intent)
+
         }
     }
 }

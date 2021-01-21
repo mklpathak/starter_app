@@ -1,18 +1,17 @@
 package com.example.samplemovieapp.ui.home
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.airbnb.epoxy.carousel
-import com.example.samplemovieapp.databinding.FragmentHomeBinding
 import com.example.core.models.Header
 import com.example.core.models.Popular
 import com.example.core.utils.Status
@@ -20,6 +19,7 @@ import com.example.core.utils.withModelsFrom
 import com.example.samplemovieapp.BuildConfig
 import com.example.samplemovieapp.PopularMovieBindingModel_
 import com.example.samplemovieapp.dagger.inject
+import com.example.samplemovieapp.databinding.FragmentHomeBinding
 import com.example.samplemovieapp.header
 import com.example.samplemovieapp.popularMovie
 import com.google.android.play.core.splitinstall.SplitInstallManager
@@ -71,9 +71,16 @@ class HomeFragment : Fragment(), LifecycleOwner {
                                                 view.dataBinding.root.setOnClickListener {
                                                     splitInstallManager?.let {
                                                         if (it.installedModules.contains("movie_detail")) {
-                                                            val i = Intent()
-                                                            i.setClassName(BuildConfig.APPLICATION_ID, "com.example.movie_detail.PostDetailActivity")
-                                                            startActivity(i)
+//                                                            val i = Intent()
+//                                                            i.setClassName(BuildConfig.APPLICATION_ID, "com.example.movie_detail.PostDetailActivity")
+//                                                            startActivity(i)
+
+                                                            val intent =
+                                                                Intent(Intent.ACTION_VIEW)
+                                                            intent.setData(Uri.parse("detail://example.com/moviedetail/654"))
+                                                            startActivity(intent)
+
+
                                                         } else {
                                                             Log.e(tag, "Registration feature is not installed")
                                                         }

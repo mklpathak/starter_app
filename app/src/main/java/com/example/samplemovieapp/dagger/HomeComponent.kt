@@ -1,9 +1,7 @@
 package com.example.samplemovieapp.dagger
 
-import com.example.core.dagger.BaseActivityComponent
 import com.example.core.dagger.BaseFragmentComponent
 import com.example.core.dagger.CoreComponent
-import com.example.samplemovieapp.HomeActivity
 import com.example.samplemovieapp.ui.home.HomeFragment
 import dagger.BindsInstance
 import dagger.Component
