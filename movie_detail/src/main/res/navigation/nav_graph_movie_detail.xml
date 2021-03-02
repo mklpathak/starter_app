@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_movie_detail"
+    app:startDestination="@id/movie_detail_fragment">
+    <fragment
+        android:id="@+id/movie_detail_fragment"
+        android:name="com.moviedetail.ui.home.MovieDetailFragment"
+        android:label="@string/first_fragment_label"
+        tools:layout="@layout/fragment_movie_detail">
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="detail://example.com/moviedetail/{id}" />
+        <argument
+            android:name="id"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
+
+</navigation>

@@ -5,7 +5,7 @@
     <data>
         <variable
             name="movie"
-            type="com.example.core.models.Popular.Result" />
+            type="com.core.models.Popular.Result" />
 
         <variable name="onClick" type="android.view.View.OnClickListener"/>
 

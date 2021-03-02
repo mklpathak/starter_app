@@ -15,7 +15,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.example.samplemovieapp"
+        applicationId "com.samplemovieapp"
         minSdkVersion 16
         targetSdkVersion 30
         versionCode 1
@@ -90,13 +90,5 @@ dependencies {
 
     def dagger_version = "2.27"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
-    kapt 'com.airbnb:deeplinkdispatch-processor:5.2.0'
-
-
-
-
-
-
-
 
 }

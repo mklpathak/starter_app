@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:dist="http://schemas.android.com/apk/distribution"
-    package="com.example.movie_detail">
+    package="com.moviedetail">
 
     <dist:module
         dist:instant="false"
@@ -15,19 +15,11 @@
 
     <application>
         <activity
-            android:name=".deeplink.MovieDetailDeeplink"
-            android:theme="@android:style/Theme.NoDisplay">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="detail" android:host="example.com" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".PostDetailActivity"
+            android:name="com.moviedetail.MovieDetailActivity"
             android:label="@string/title_activity_post_detail"
-            android:theme="@style/Theme.SampleMovieApp.NoActionBar"></activity>
+            android:theme="@style/Theme.SampleMovieApp.NoActionBar">
+            <nav-graph android:value="@navigation/nav_graph_movie_detail" />
+        </activity>
     </application>
 
 </manifest>

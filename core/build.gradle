@@ -65,12 +65,4 @@ dependencies {
     def dagger_version = "2.27"
     api "com.google.dagger:dagger:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
-
-
-    api 'com.airbnb:deeplinkdispatch:5.2.0'
-    kapt 'com.airbnb:deeplinkdispatch-processor:5.2.0'
-
-
-
-
 }
