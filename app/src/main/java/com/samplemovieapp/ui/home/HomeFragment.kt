@@ -11,17 +11,19 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
-import com.airbnb.epoxy.carousel
+import co.mukulpathak.adaptivelist.DataBindListAdaptor
+import co.mukulpathak.adaptivelist.DataController
 import com.core.models.Header
 import com.core.models.Popular
 import com.core.utils.Status
+import com.core.utils.carousel
 import com.core.utils.withModelsFrom
-import com.samplemovieapp.dagger.inject
 import com.samplemovieapp.databinding.FragmentHomeBinding
 import com.google.android.play.core.splitinstall.SplitInstallManager
 import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 import com.google.android.play.core.splitinstall.SplitInstallRequest
 import com.samplemovieapp.PopularMovieBindingModel_
+import com.samplemovieapp.dagger.inject
 import com.samplemovieapp.header
 import com.samplemovieapp.popularMovie
 import javax.inject.Inject
@@ -31,6 +33,10 @@ class HomeFragment : Fragment(), LifecycleOwner {
 
     private var splitInstallManager: SplitInstallManager? = null
 
+    lateinit var dataAdapter: DataBindListAdaptor
+    lateinit var dataController: DataController
+
+
     @Inject
     lateinit var homeViewModel: HomeViewModel
 
@@ -39,15 +45,15 @@ class HomeFragment : Fragment(), LifecycleOwner {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-
-        inject(this)
+        this.inject()
         var binding = FragmentHomeBinding.inflate(LayoutInflater.from(context))
         binding.movies.setLayoutManager(GridLayoutManager(context, 3))
 
         installRegistrationModule()
 
-        
+        dataController = DataController()
+
+
 
 
         homeViewModel.res.observe(viewLifecycleOwner, Observer {
@@ -57,7 +63,7 @@ class HomeFragment : Fragment(), LifecycleOwner {
                     binding.movies.withModels {
                             it.data?.forEach {
                                 when(it){
-                                    is Header-> header {
+                                    is Header -> header {
                                         id("popular_movies_title")
                                         title(it.title)
                                         spanSizeOverride { _, _, _ -> 3 }
@@ -91,6 +97,10 @@ class HomeFragment : Fragment(), LifecycleOwner {
                                 }
                             }
                         }
+
+
+
+
                 }
 
                 Status.LOADING -> {

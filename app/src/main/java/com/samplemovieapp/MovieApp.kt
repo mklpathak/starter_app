@@ -28,4 +28,3 @@ class MovieApp : Application() {
     }
 }
 
-fun Fragment.coreComponent() = this.context?.let { MovieApp.coreComponent(it) }

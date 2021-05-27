@@ -1,4 +1,4 @@
-package com.samplemovieapp.dagger
+package com.moviedetail.dagger
 
 import com.core.dagger.BaseFragmentComponent
 import com.core.dagger.CoreComponent
@@ -8,17 +8,17 @@ import dagger.BindsInstance
 import dagger.Component
 
 @Component(
-    modules = [MovieDetailModule::class,MovieDetailRepositoryModule::class],
+    modules = [MovieDetailModule::class, MovieDetailRepositoryModule::class],
     dependencies = [CoreComponent::class]
 )
 @FeatureScope
-interface MovieDetailComponentr : BaseFragmentComponent<MovieDetailFragment> {
+interface MovieDetailComponent : BaseFragmentComponent<MovieDetailFragment> {
 
     @Component.Builder
     interface Builder {
 
-        fun build(): MovieDetailComponentr
-        @BindsInstance fun homeFragment(fragmentComponent: MovieDetailFragment): Builder
+        fun build(): MovieDetailComponent
+        @BindsInstance fun fragment(fragmentComponent: MovieDetailFragment): Builder
         fun coreComponent(module: CoreComponent): Builder
     }
 }

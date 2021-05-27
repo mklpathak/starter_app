@@ -61,6 +61,7 @@ dependencies {
 
 
 
+
     api "io.coil-kt:coil:1.1.1"
     def dagger_version = "2.27"
     api "com.google.dagger:dagger:$dagger_version"

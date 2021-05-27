@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
+import com.moviedetail.dagger.inject
 import com.moviedetail.databinding.FragmentMovieDetailBinding
-import com.samplemovieapp.dagger.injectpost
 import javax.inject.Inject
 
 
@@ -26,7 +26,7 @@ class MovieDetailFragment : Fragment(), LifecycleOwner {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        injectpost(this)
+        this.inject()
         postDetailViewModel.refreshData(args.id)
         var binding = FragmentMovieDetailBinding.inflate(LayoutInflater.from(context))
         postDetailViewModel.res.observe(viewLifecycleOwner, Observer {

@@ -1,4 +1,4 @@
-package com.samplemovieapp.dagger
+package com.moviedetail.dagger
 
 import android.app.Activity
 import android.content.Context

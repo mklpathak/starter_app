@@ -1,4 +1,4 @@
-package com.samplemovieapp.dagger
+package com.moviedetail.dagger
 
 import com.core.database.PopularDao
 import com.core.network.ApiHelper
