@@ -1,3 +1,4 @@
+
 package com.core.dagger.scope
 
 import javax.inject.Scope
