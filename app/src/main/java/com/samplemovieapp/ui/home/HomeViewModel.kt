@@ -1,88 +1,81 @@
 package com.samplemovieapp.ui.home
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.util.Log
+import androidx.lifecycle.*
 import com.core.Constants
+import com.core.ModelTypes
+import com.core.models.*
 import com.samplemovieapp.MainRepository
-import com.core.models.BaseModel
-import com.core.models.Header
-import com.core.models.Popular
 import com.core.utils.*
-import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.sample
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.supervisorScope
+import com.samplemovieapp.intent.MovieIntent
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import kotlinx.coroutines.*
+
+
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.*
+import java.util.concurrent.TimeUnit
 
 class HomeViewModel  constructor(
     private val mainRepository: MainRepository
 ):ViewModel(){
 
-    private val _res = MutableLiveData<Resource<List<BaseModel>>>()
+    companion object {
+        val POPULAR_MOVIES = "Popular Movies" to 1
+        val UPCOMMING_MOVIES = "Upcomming Movies" to 3
+        val NOW_PLAYING = "Now Playing" to 5
+        val TOP_RATED_MOVIES = "Top Rated Movies" to 7
+    }
 
-    private val data = ArrayList<BaseModel>()
+    val userIntent = Channel<MovieIntent>(Channel.UNLIMITED)
+    private val _state = MutableStateFlow<HomeState>(HomeState.Idle)
+    val state: StateFlow<HomeState>
+        get() = _state
 
-    val res : LiveData<Resource<List<BaseModel>>>
-        get() = _res
+    val mutableLiveData = MutableLiveData<HomeState> ()
+    val liveData : LiveData<HomeState>
+            get() = mutableLiveData
 
-    var dataLoaded = false
-
-
-//    val cacheSupport : LiveData<List<Popular.Result>>
-//        get() = mainRepository.getCacheSupport()
+    private val data = ArrayList<BaseModel>().apply {
+        add(Header(POPULAR_MOVIES.first))
+        add(LoadingModel())
+        add(Header(UPCOMMING_MOVIES.first))
+        add(LoadingModel())
+        add(Header(NOW_PLAYING.first))
+        add(LoadingModel())
+        add(Header(TOP_RATED_MOVIES.first))
+        add(LoadingModel())
+    }
 
     init {
-        setObserver()
-        refreshData()
+        handleIntent()
     }
 
-    private fun setObserver()= viewModelScope.launch {
-        _res.postValue(Resource.loading(null))
-        mainRepository.getCacheSupport().sample(1000).collect {
-            data.clear()
-            data.apply {
-                add(Header("Popular Movies"))
-                add(Popular(1, it.filter {
-                    it.categories.contains(Constants.POPULAER_MOVIES.toString())
-                }, 0, 0))
-                add(Header("Upcomming Movies"))
-                add(Popular(1, it.filter {
-                    it.categories.contains(Constants.UPCOMMING_MOVIES.toString())
-                }, 0, 0))
-                add(Header("Now Playing"))
-                add(Popular(1, it.filter {
-                    it.categories.contains(Constants.NOW_PLAYING.toString())
-                }, 0, 0))
-                add(Header("Top rated Movies"))
-                add(Popular(1, it.filter {
-                    it.categories.contains(Constants.TOP_RATED.toString())
-                }, 0, 0))
+    private fun handleIntent() {
+        viewModelScope.launch {
+            userIntent.consumeAsFlow().collect {
+                when (it) {
+                    is MovieIntent.FetchMovies -> {
+                        refreshData()
+                    }
+                }
             }
-
-            _res.postValue(Resource.success(data))
-
         }
     }
-    private fun refreshData()  = viewModelScope.launch {
-        supervisorScope {
-            try {
-                var popularMoviesDeffered =   async { mainRepository.getPouplarMovies() }
-                var upcommingMoviesDeffered = async { mainRepository.getUpcommingMovies() }
-                var nowPlayingDeffered =  async { mainRepository.getNowPlaying() }
-                var topRatedDeffered = async { mainRepository.getTopRated() }
-                popularMoviesDeffered.await()
-                upcommingMoviesDeffered.await()
-                nowPlayingDeffered.await()
-                topRatedDeffered.await()
+    private fun refreshData()  = viewModelScope.launch (Dispatchers.Main){
 
-
-            }catch (e:Exception){
-              //  _res.postValue(Resource.error("failed",data))
+        instantCombineWithTag(
+            NOW_PLAYING to mainRepository.getNowPlaying(),
+            TOP_RATED_MOVIES to mainRepository.getTopRated(),
+            POPULAR_MOVIES to mainRepository.getPouplarMovies(),
+            UPCOMMING_MOVIES to mainRepository.getUpcommingMovies()
+        ).collect {
+            Log.e("Hello","World")
+            data[it.first.second] = it.second.convertToBaseModel {
+                BaseModelWrapper(it,itemType = ModelTypes.MOVIES)
             }
+            mutableLiveData.value = HomeState.Movies(data = data)
         }
-
     }
 
 }

@@ -18,30 +18,30 @@ class MovieDetailViewModel   constructor(
     private val postDetailRepository: MovieDetailRepository
 ): ViewModel(){
 
-    private val _res = MutableLiveData<Resource<MovieResponse>>()
-    val res : LiveData<Resource<MovieResponse>>
-        get() = _res
-
-     fun refreshData(id:Int)  = viewModelScope.launch {
-        supervisorScope {
-            try {
-                var popularMoviesDeffered =   async { postDetailRepository.getMovieById(id) }
-                popularMoviesDeffered.await().body()?.let {
-                    _res.postValue(Resource.success(it))
-                    return@supervisorScope
-                }
-
-                _res.postValue(Resource.error("Data loading failed",null))
-                return@supervisorScope
-
-            }catch (e:Exception){
-                //  _res.postValue(Resource.error("failed",data))
-                _res.postValue(Resource.error("Data loading failed",null))
-
-            }
-        }
-
-    }
+//    private val _res = MutableLiveData<Resource<MovieResponse>>()
+//    val res : LiveData<Resource<MovieResponse>>
+//        get() = _res
+//
+//     fun refreshData(id:Int)  = viewModelScope.launch {
+//        supervisorScope {
+//            try {
+//                var popularMoviesDeffered =   async { postDetailRepository.getMovieById(id) }
+//                popularMoviesDeffered.await().body()?.let {
+//                    _res.postValue(Resource.success(it))
+//                    return@supervisorScope
+//                }
+//
+//                _res.postValue(Resource.error("Data loading failed",null))
+//                return@supervisorScope
+//
+//            }catch (e:Exception){
+//                //  _res.postValue(Resource.error("failed",data))
+//                _res.postValue(Resource.error("Data loading failed",null))
+//
+//            }
+//        }
+//
+//    }
 
 
 }

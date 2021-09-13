@@ -27,11 +27,11 @@ class MovieDetailFragment : Fragment(), LifecycleOwner {
         savedInstanceState: Bundle?
     ): View? {
         this.inject()
-        postDetailViewModel.refreshData(args.id)
+//        postDetailViewModel.refreshData(args.id)
         var binding = FragmentMovieDetailBinding.inflate(LayoutInflater.from(context))
-        postDetailViewModel.res.observe(viewLifecycleOwner, Observer {
-            binding.movieDetail = it.data
-        })
+//        postDetailViewModel.res.observe(viewLifecycleOwner, Observer {
+//            binding.movieDetail = it.data
+//        })
         return binding.root
     }
 

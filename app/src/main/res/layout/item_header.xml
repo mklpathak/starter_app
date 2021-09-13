@@ -3,9 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable name="title" type="String" />
-        <variable name="onClick" type="android.view.View.OnClickListener"/>
 
+        <variable name="onClick" type="android.view.View.OnClickListener"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,7 +17,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/viewAll"
             android:id="@+id/title"
-            android:text="@{title}"
             android:layout_width="0dp"
             android:padding="8dp"
             android:layout_height="wrap_content"/>

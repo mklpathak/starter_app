@@ -1,10 +1,13 @@
 package com.core.models
 
 import com.core.Constants
+import com.core.ModelTypes
+import com.core.utils.Status
 
 
-data class Header (var title: String): BaseModel() {
+data class Header (var title: String ): BaseModel() {
     override fun getViewType(): Int {
-        return Constants.HEADER;
+        return ModelTypes.HEADER;
     }
+    override fun getItemSpan() = 4
 }

@@ -7,9 +7,7 @@ object Constants {
     const val IMAGE_PATH = "https://image.tmdb.org/t/p/w500/"
 
     //viewTypes
-    const val HEADER = 0
-    const val MOVIES=2
-    const val MOVIE=1
+
 
 
     //listType

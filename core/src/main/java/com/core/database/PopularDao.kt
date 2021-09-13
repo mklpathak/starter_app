@@ -1,6 +1,5 @@
 package com.core.database
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.core.models.Popular
 import kotlinx.coroutines.flow.Flow
@@ -30,7 +29,7 @@ interface PopularDao {
     suspend fun insert(user: Popular.Result)
 
     @Query("SELECT * FROM popular WHERE categories LIKE :search")
-    fun fetchByCategory(search: String?): LiveData<List<Popular.Result>>
+    fun fetchByCategory(search: String?):Flow<List<Popular.Result>>
 
 
 

@@ -4,6 +4,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.core.Constants
+import com.core.ModelTypes
+import com.core.utils.Status
 
 data class Popular(
     val page: Int,
@@ -12,12 +14,14 @@ data class Popular(
     val total_results: Int
 ) : BaseModel() {
     override fun getViewType(): Int {
-        return Constants.MOVIES
+        return ModelTypes.MOVIES
     }
+    override fun getItemSpan() = 1
+
 
     @Entity(tableName = "popular")
     data class Result(
-        val adult: Boolean,
+        val adult: Boolean?,
         val backdrop_path: String,
         @TypeConverters(DataConverter::class)
         val genre_ids: List<Int>,
@@ -36,8 +40,9 @@ data class Popular(
         var categories :String = ""
     ): BaseModel() {
         override fun getViewType(): Int {
-            return Constants.MOVIE
+            return ModelTypes.MOVIES
         }
+        override fun getItemSpan() = 1
     }
 }
 
