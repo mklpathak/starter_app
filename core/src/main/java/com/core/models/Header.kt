@@ -2,6 +2,7 @@ package com.core.models
 
 import com.core.Constants
 import com.core.ModelTypes
+import com.core.ui.BaseModel
 import com.core.utils.Status
 
 

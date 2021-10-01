@@ -2,26 +2,21 @@ package com.samplemovieapp.ui.binders
 
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.TextView
-import androidx.annotation.NonNull
 import com.core.ModelTypes
-import com.core.models.BaseModel
 import com.core.models.Header
+import com.core.ui.BaseModel
 import com.core.ui.DataBindViewHolder
-import com.core.ui.DataHolderModels
-import com.samplemovieapp.R
+import com.core.ui.DataViewHolder
 import com.samplemovieapp.databinding.ItemHeaderBinding
 
-class HeadingBinder : DataHolderModels {
-    override fun createInstance(parent: View, viewType: Int): DataBindViewHolder {
+class HeadingBinder : DataViewHolder<BaseModel> {
+    override fun createInstance(parent: View, viewType: Int): DataBindViewHolder<BaseModel> {
         return ViewHolder(ItemHeaderBinding.inflate(LayoutInflater.from(parent.context))
         )
     }
-    class ViewHolder(var itemHeaderBinding:  ItemHeaderBinding) : DataBindViewHolder(itemHeaderBinding.root) {
+    class ViewHolder(var itemHeaderBinding:  ItemHeaderBinding) : DataBindViewHolder<BaseModel>(itemHeaderBinding.root) {
         override fun onBindVewHolder(position: Int, multiViewItem: BaseModel) {
-            super.onBindVewHolder(position, multiViewItem)
-            val item = multiViewItem as Header
-            itemHeaderBinding.title.text  = item.title
+            itemHeaderBinding.title.text  = (multiViewItem as Header).title
         }
     }
 

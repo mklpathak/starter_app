@@ -1,6 +1,7 @@
 package com.samplemovieapp.ui.home
 
-import com.core.models.BaseModel
+import com.core.ui.BaseModel
+
 
 sealed class HomeState {
     object Idle : HomeState()

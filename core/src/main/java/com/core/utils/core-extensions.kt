@@ -2,10 +2,10 @@ package com.core.utils
 
 
 import com.core.ModelTypes
-import com.core.models.BaseModel
 import com.core.models.BaseModelWrapper
 import com.core.models.ErrorModel
 import com.core.models.LoadingModel
+import com.core.ui.BaseModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.produce

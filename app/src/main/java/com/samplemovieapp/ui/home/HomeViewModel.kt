@@ -5,6 +5,7 @@ import androidx.lifecycle.*
 import com.core.Constants
 import com.core.ModelTypes
 import com.core.models.*
+import com.core.ui.BaseModel
 import com.samplemovieapp.MainRepository
 import com.core.utils.*
 import com.samplemovieapp.intent.MovieIntent
@@ -70,12 +71,10 @@ class HomeViewModel  constructor(
             POPULAR_MOVIES to mainRepository.getPouplarMovies(),
             UPCOMMING_MOVIES to mainRepository.getUpcommingMovies()
         ).collect {
-            Log.e("Hello","World")
             data[it.first.second] = it.second.convertToBaseModel {
                 BaseModelWrapper(it,itemType = ModelTypes.MOVIES)
             }
             mutableLiveData.value = HomeState.Movies(data = data)
         }
     }
-
 }

@@ -1,5 +1,10 @@
 package com.core
 
+
+/**
+ * ModelTypes are just used to
+ * uniquely identify views in recyclerview getItemViewType
+ */
 object ModelTypes {
     const val ERROR = -1
     const val LOADING = -2
@@ -8,3 +13,4 @@ object ModelTypes {
     const val MOVIE=2
     const val MOVIES=3
 }
+

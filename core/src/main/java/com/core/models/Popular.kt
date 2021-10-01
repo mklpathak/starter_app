@@ -5,6 +5,7 @@ import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.core.Constants
 import com.core.ModelTypes
+import com.core.ui.BaseModel
 import com.core.utils.Status
 
 data class Popular(

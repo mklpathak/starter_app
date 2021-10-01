@@ -6,7 +6,6 @@ import com.core.Constants.POPULAER_MOVIES
 import com.core.Constants.TOP_RATED
 import com.core.Constants.UPCOMMING_MOVIES
 import com.core.database.PopularDao
-import com.core.models.BaseModel
 import com.core.models.Popular
 import com.core.network.ApiHelper
 import com.core.utils.Resource

@@ -1,6 +1,7 @@
 package com.core.models
 
 import com.core.ModelTypes
+import com.core.ui.BaseModel
 
 class ErrorModel constructor(throwable: Throwable? = null,var spanSize : Int =4): BaseModel() {
 

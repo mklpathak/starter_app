@@ -2,22 +2,18 @@ package com.samplemovieapp.ui.binders
 
 import android.view.View
 import com.core.ModelTypes
-import com.core.models.BaseModel
 import com.core.models.ErrorModel
-import com.core.models.Header
-import com.core.models.LoadingModel
+import com.core.ui.BaseModel
 import com.core.ui.DataBindViewHolder
-import com.core.ui.DataHolderModels
+import com.core.ui.DataViewHolder
 import com.samplemovieapp.databinding.ItemErrorBinding
-import com.samplemovieapp.databinding.ItemHeaderBinding
 
-class ErrorBinder() : DataHolderModels {
-    override fun createInstance(parent: View, viewType: Int): DataBindViewHolder<ErrorModel> {
+class ErrorBinder() : DataViewHolder<BaseModel> {
+    override fun createInstance(parent: View, viewType: Int): DataBindViewHolder<BaseModel> {
         return ViewHolder(ItemErrorBinding.bind(parent))
     }
-    class ViewHolder(var itemHeaderBinding: ItemErrorBinding) : DataBindViewHolder<ErrorModel>(itemHeaderBinding.root) {
-        override fun onBindVewHolder(position: Int, multiViewItem: ErrorModel) {
-            super.onBindVewHolder(position, multiViewItem)
+    class ViewHolder(var itemHeaderBinding: ItemErrorBinding) : DataBindViewHolder<BaseModel>(itemHeaderBinding.root) {
+        override fun onBindVewHolder(position: Int, multiViewItem: BaseModel) {
             val item = multiViewItem as ErrorModel
         }
     }
